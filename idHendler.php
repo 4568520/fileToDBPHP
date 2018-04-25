@@ -33,7 +33,7 @@ function idCheck($id){
     $mOB = intval(substr($id,4,2));
     $dOB =intval(substr($id,6,2));
     $days=[31,28,31,30,31,30,31,31,30,31,30,31];
-    if(($gender==6 or $gender==5)and yOB>cY){
+    if(($gender==6 or $gender==5)and $yOB>$cY){
         echo 'year is bad';
         return 0;
     }
@@ -48,6 +48,19 @@ function idCheck($id){
     }else{
         $yOB+=1800;
     }
-
+    if($yOB%4==0){
+        $days[1]=29;
+    }
+    if($dOB>$days[$mOB-1] or $dOB==0){
+        echo 'Day is bad';
+        return 0;
+    }
+    $age=$cBY-$yOB-1;
+    if($mOB<$cM){
+        $age++;
+    }elseif ($mOB==$cM and $dOB<=$cD){
+     $age++;
+    }
+    return $age;
 }
-
+?>
