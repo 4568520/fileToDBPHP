@@ -1,6 +1,5 @@
 from datetime import date
-import sys
-import ast
+
 
 def ikInfo(ik):
     #digits='0123456789'

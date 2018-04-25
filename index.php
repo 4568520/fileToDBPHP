@@ -1,7 +1,6 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Kasutaja
  * Date: 04/21/18
  * Time: 13:47
  */
