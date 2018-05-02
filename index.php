@@ -4,6 +4,7 @@
  * Date: 04/21/18
  * Time: 13:47
  */
+include 'idHendler.php';
 $host='localhost';
 $user='root';
 $psswd='';
@@ -28,6 +29,7 @@ mysqli_query($link,'CREATE TABLE IF NOT EXISTS `people` (
 	`id` CHAR(13) NOT NULL,
 	`name` CHAR(13) NOT NULL,
 	`lastname` CHAR(13) NOT NULL,
+	`age` SMALLINT NOT NULL,
 	PRIMARY KEY (`id`)
 )
 COLLATE=\'utf8_general_ci\'
@@ -46,19 +48,21 @@ do{
     $people=explode(" ",$peopleSTR);
     if(!array_search($people[2],$idArray)) {
         //exec('py C:\laragon\www\dbNamesPHP\ikDEcoder.py '.$people[2],$age);
+        $age=idCheck(substr($people[2],0,11));
         if(mysqli_query($link, 'INSERT INTO people 
-VALUES("'.$people[2].'","'.$people[0].'","'.$people[1].'"); ')=== TRUE) {
+VALUES("'.$people[2].'","'.$people[0].'","'.$people[1].'","'.$age.'"); ')=== TRUE) {
     } else {
-        echo "Can't add<br> ";
+        //echo "Can't add<br> ";
     }
         $idArray[$index] = $people[2];
         $index++;
     }
 }while(!feof($fileN));
 fclose($fileN);
-if($test=mysqli_query($link,'SELECT * FROM people')) {
+if($test=mysqli_query($link,'SELECT name,lastname FROM people WHERE age>0 
+AND age = (SELECT MIN(age) FROM people);')) {
     while ($rowOne = mysqli_fetch_assoc($test)) {
-        echo "<li>" . $rowOne['id'] . '</li>';
+        echo "<li>" . $rowOne['name'] .' '.$rowOne['lastname'].'</li>';
     }
 }else {echo 'errorrrr';}
 
