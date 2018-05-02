@@ -1,0 +1,499 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"key",
+				"keyShip"
+			],
+			[
+				"for",
+				"for\tfor (…) {…}"
+			],
+			[
+				"te",
+				"testar"
+			],
+			[
+				"if",
+				"if\tif"
+			],
+			[
+				"i",
+				"id"
+			],
+			[
+				"in",
+				"input\tTag"
+			],
+			[
+				"fo",
+				"form\tTag"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"date_de",
+				"date_default_timezone_set"
+			],
+			[
+				"log",
+				"log_ip"
+			],
+			[
+				"text",
+				"text"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<?php\n/**\n * Created by PhpStorm.\n * Date: 04/21/18\n * Time: 13:47\n */\ninclude 'idHandler.php';\n$host='localhost';\n$user='root';\n$psswd='';\n$db='names';\n\n$link=mysqli_connect($host,$user,$psswd);\n\nif ($link->connect_error) {\n    die(\"Connection failed: <br>\" . $link->connect_error);\n}\necho \"Connected successfully<br>\";\n\n\nmysqli_query($link, 'CREATE DATABASE IF NOT EXISTS ' . $db . ';');\n//mysqli_select_db($link,$db);\n\nmysqli_query($link, \"COLLATE='utf8_general_ci';\");\nmysqli_query($link, 'SET NAMES utf8;');\nmysqli_select_db($link, $db);\n\nmysqli_query($link,'CREATE TABLE IF NOT EXISTS `people` (\n\t`id` CHAR(13) NOT NULL,\n\t`name` CHAR(13) NOT NULL,\n\t`lastname` CHAR(13) NOT NULL,\n\t`age` SMALLINT NOT NULL,\n\tPRIMARY KEY (`id`)\n)\nCOLLATE=\\'utf8_general_ci\\'\nENGINE=InnoDB');\n\n//`age` int(3) NOT NULL,\n//,\"'.$age.'\"\n\n$fileN = fopen(\"name.txt\",\"r\");\n$index=0;\n$idArray=[0];\n\ndo{\n\n    $peopleSTR=fgets($fileN);\n    $people=explode(\" \",$peopleSTR);\n    if(!array_search($people[2],$idArray)) {\n        //exec('py C:\\laragon\\www\\dbNamesPHP\\ikDEcoder.py '.$people[2],$age);\n        $age=idCheck(substr($people[2],0,11));\n        if(mysqli_query($link, 'INSERT INTO people \nVALUES(\"'.$people[2].'\",\"'.$people[0].'\",\"'.$people[1].'\",\"'.$age.'\"); ')=== TRUE) {\n    } else {\n        //echo \"Can't add<br> \";\n    }\n        $idArray[$index] = $people[2];\n        $index++;\n    }\n}while(!feof($fileN));\nfclose($fileN);\nif($test=mysqli_query($link,'SELECT name,lastname FROM people WHERE age>0 \nAND age = (SELECT MIN(age) FROM people);')) {\n    while ($rowOne = mysqli_fetch_assoc($test)) {\n        echo \"<li>\" . $rowOne['name'] .' '.$rowOne['lastname'].'</li>';\n    }\n}else {echo 'errorrrr';}\n\n\n?>",
+			"file": "index.php",
+			"file_size": 1756,
+			"file_write_time": 131697077009423703,
+			"settings":
+			{
+				"buffer_size": 1687,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Package Control Messages\n========================\n\nSublimeLinter-php\n-----------------\n\n  SublimeLinter-php\n  -------------------------------\n  This linter plugin for SublimeLinter provides an interface to php -l.\n  \n  Please read the installation instructions at:\n  \n  https://github.com/SublimeLinter/SublimeLinter-php\n",
+			"settings":
+			{
+				"buffer_size": 321,
+				"line_ending": "Windows",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"contents": "class TemperatureController:\n\n    alarm =0\n    error =0\n    heatValue =0\n    prevTemperature =0\n    lowerCriticalBound = -10\n    upperCriticalBound = 20\n    lowerTriggerBound = -4\n    upperTriggerBound = 15\n    lowerHoldBound = 0\n    upperHoldBound = 5\n\n    def UpdateTemperature(self,temp):\n        self.prevTemperature = temp\n    def GetErrorState(self):\n        return self.error\n    def GetAlarmState(self):\n        return self.alarm\n\ndef heater(temp,hTemp,loTemp):\n    boiler = TemperatureController()\n    boiler.UpdateTemperature(temp)\n    boiler.lowerHoldBound = loTemp\n    boiler.upperHoldBound = hTemp\n    if boiler.lowerCriticalBound>=boiler.upperCriticalBound or boiler.lowerHoldBound>=boiler.upperHoldBound or boiler.lowerTriggerBound>=boiler.upperTriggerBound:\n        boiler.error = 1\n        print('flags', boiler.GetErrorState(), boiler.GetAlarmState(),'Configuration error')\n        return #\n    if boiler.prevTemperature <= boiler.upperHoldBound and boiler.prevTemperature >= boiler.lowerHoldBound:\n        boiler.heatValue = 0\n    elif boiler.prevTemperature > boiler.upperHoldBound:\n        boiler.heatValue = -0.1#*abs(boiler.prevTemperature-boiler.upperHoldBound)\n    elif boiler.prevTemperature < boiler.lowerHoldBound:\n        boiler.heatValue = 0.1#*abs(boiler.prevTemperature-boiler.lowerHoldBound)\n    while not(boiler.prevTemperature <= boiler.upperHoldBound and boiler.prevTemperature >= boiler.lowerHoldBound):#boiler.prevTemperature > boiler.upperHoldBound or boiler.prevTemperature < boiler.lowerHoldBound:\n        if boiler.prevTemperature < boiler.lowerCriticalBound or boiler.prevTemperature > boiler.upperCriticalBound:\n            boiler.alarm = 1\n        else:\n            boiler.alarm = 0\n        boiler.prevTemperature += boiler.heatValue\n        #if boiler.prevTemperature > boiler.upperHoldBound:\n        #    boiler.heatValue -=0.1\n        #elif boiler.prevTemperature < boiler.lowerHoldBound:\n        #    boiler.heatValue += 0.1\n        print(boiler.prevTemperature,'flags',boiler.GetErrorState(),boiler.GetAlarmState())\n    boiler.heatValue = 0\n    #print(boiler.prevTemperature, 'flags', boiler.GetErrorState(), boiler.GetAlarmState())#\n\n\nheater(40,0.1,0)",
+			"file": "/C/Users/Kasutaja/PycharmProjects/testingTest/TestingTest/tempClassFunct.py",
+			"file_size": 2252,
+			"file_write_time": 131685173281360892,
+			"settings":
+			{
+				"buffer_size": 2202,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "idHandler.php",
+			"settings":
+			{
+				"buffer_size": 1475,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 588.0,
+		"last_filter": "pa",
+		"selected_items":
+		[
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Remove Package"
+			],
+			[
+				"sql",
+				"SQLExec: List connections"
+			],
+			[
+				"s",
+				"SQLExec: List connections"
+			],
+			[
+				"git ",
+				"Git: Gui"
+			],
+			[
+				"Package Control: i",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 786.0
+	},
+	"console":
+	{
+		"height": 198.0,
+		"history":
+		[
+			"tempClassFunct.py",
+			"py ",
+			"py tempClassFunct.py",
+			"1+1",
+			"py ",
+			"print(\"Hi\",10)",
+			"print(\"Hi\"10)",
+			"print(\"Hi\".10)",
+			"print(\"Hi\",10)",
+			"print(\"Hi\")",
+			"printf(\"Hi\")"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/laragon/www/dbNamesPHP"
+	],
+	"file_history":
+	[
+		"/C/Users/Kasutaja/AppData/Roaming/Sublime Text 3/Packages/SQLExec/SQLExec.sublime-settings",
+		"/C/xampp/htdocs/KTA-17v_w2Tarmo/index.htm",
+		"/C/laragon/www/form/form.html",
+		"/C/laragon/www/form/formHandler.php",
+		"/C/Users/Kasutaja/Downloads/KTA-17V/urok5/mantis-install.txt",
+		"/C/Users/Kasutaja/Desktop/Password.txt",
+		"/C/laragon/www/dbNamesPHP/name.txt",
+		"/C/Users/Kasutaja/Downloads/180e649b0adf21f35d8f8ad6b1f27159-c74768e2d28ddecb37f97f407545581817a75ad4/gistfile1.txt",
+		"/C/xampp/htdocs/KTA-17v_w2Tarmo/index.php",
+		"/C/xampp/htdocs/PythonFirstTry/WebDBPhp/index.php",
+		"/C/xampp/htdocs/phhp/imena.txt",
+		"/C/xampp/htdocs/weak_3/log_ip.txt",
+		"/C/Users/Kasutaja/Downloads/KTA-17V/urok6/task-unittest.txt",
+		"/C/Users/Kasutaja/AppData/Local/Temp/71OHUW2IP5.txt",
+		"/C/Users/Kasutaja/Downloads/form/form.html",
+		"/C/laragon/www/form/formHandler",
+		"/C/Users/Kasutaja/Downloads/KTA-17V/isikukood.html",
+		"/C/laragon/www/form/sendOnPage.js",
+		"/C/laragon/www/form/view.css",
+		"/C/Users/Kasutaja/Documents/ееее.html",
+		"/C/Users/Kasutaja/Downloads/isikukood.html",
+		"/C/Users/Kasutaja/Desktop/New Text Document.txt",
+		"/C/Users/Kasutaja/Downloads/KTA-17V/dz2-isikukood-test.txt",
+		"/C/Users/Kasutaja/Downloads/KTA-17V/urok6/kr-urok6.txt",
+		"/C/Users/Kasutaja/Downloads/Lucia Script ~Princess of a Age-old Kindom~ [ENG]/readme.txt",
+		"/C/Users/Kasutaja/Downloads/OneDrive_1_11-25-2017/lessonhtml.html",
+		"/C/Users/Kasutaja/Desktop/phhp/imena.txt",
+		"/C/xampp/htdocs/phpmail/list.txt",
+		"/C/xampp/htdocs/phpmail/ship.php",
+		"/C/Users/Kasutaja/Downloads/phhp-20180125T204509Z-001/phhp/imena.txt",
+		"/C/Users/Kasutaja/Desktop/meme/photosizes.php",
+		"/C/Users/Kasutaja/Downloads/phpmail-20180125T204456Z-001/phpmail/test.php",
+		"/C/xampp/htdocs/phot/photosizes.php",
+		"/C/Users/Kasutaja/Downloads/phhp-20180125T204509Z-001/phhp/namestuff.php",
+		"/C/xampp/htdocs/roge/index.html",
+		"/C/xampp/htdocs/kta17v/test.php",
+		"/C/xampp/htdocs/roge/roge.php",
+		"/C/xampp/htdocs/kta17v/index.php",
+		"/C/xampp/htdocs/kta17v/functions.php",
+		"/C/xampp/htdocs/kta17v/work.php",
+		"/C/xampp/htdocs/kta17v/log_ip.txt",
+		"/C/xampp/htdocs/KTA-17v_w2Tarmo/test.php",
+		"/C/xampp/htdocs/weak_3/work.php",
+		"/C/xampp/htdocs/weak_3/test.php",
+		"/C/xampp/htdocs/weak_3/functions.php",
+		"/C/xampp/htdocs/KTA-17v_w2Tarmo/log_ip.txt",
+		"/C/xampp/htdocs/roge/index.http",
+		"/C/Users/Kasutaja/Downloads/KTA-17V/calc-js/calc2.php",
+		"/C/xampp/htdocs/weak_3/index.php",
+		"/C/Users/Kasutaja/AppData/Roaming/Sublime Text 3/Packages/SublimePHPIntel/SublimePHPIntel.sublime-settings",
+		"/C/Users/Kasutaja/Documents/test.py",
+		"/C/Users/Kasutaja/Documents/lessonhtml.html"
+	],
+	"find":
+	{
+		"height": 41.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "index.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1687,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								33,
+								33
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 321,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								321,
+								321
+							]
+						],
+						"settings":
+						{
+							"auto_indent": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_width": 2,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/Kasutaja/PycharmProjects/testingTest/TestingTest/tempClassFunct.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2202,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								437,
+								437
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "idHandler.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1475,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1475,
+								1475
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 41.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.SublimeLinter Messages":
+	{
+		"height": 140.0
+	},
+	"output.exec":
+	{
+		"height": 140.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 158.0
+	},
+	"pinned_build_system": "",
+	"project": "index.sublime-project",
+	"replace":
+	{
+		"height": 76.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 225.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
