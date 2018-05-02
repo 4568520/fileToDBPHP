@@ -4,7 +4,7 @@
  * Date: 04/21/18
  * Time: 13:47
  */
-include 'idHendler.php';
+include 'idHandler.php';
 $host='localhost';
 $user='root';
 $psswd='';
