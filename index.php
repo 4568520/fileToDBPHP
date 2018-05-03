@@ -10,7 +10,7 @@ $link=mysqli_connect($host, $user, $psswd);
 if ($link->connect_error) {
     die("Connection failed: <br>" . $link->connect_error);
 }
-echo "Connected successfully<br>";
+echo "Connected successfully <br>";
 
 
 mysqli_query($link, 'CREATE DATABASE IF NOT EXISTS ' . $db . ';');
